@@ -4,7 +4,6 @@ using System.Windows.Forms;
 namespace PruebaRendimientoForms {
 	class Progreso {
 		private readonly ProgressBar barra;
-		private readonly int idMetodo;
 		private long progreso;
 		private long maximo;
 
@@ -15,11 +14,10 @@ namespace PruebaRendimientoForms {
 			this.barra.Value = 0;
 			this.barra.Maximum = 100;
 			this.progreso = 0;
-			this.idMetodo = metodo.Id;
 			this.EnEjecucion = false;
 		}
 
-		public void Preparar(int cntTipos, int cntMetodos, int cntItems) {
+		public void Preparar(int cntTipos, int cntItems) {
 			this.barra.Value = 0;
 			this.progreso = 0;
 			this.maximo = cntTipos * cntItems;

@@ -86,7 +86,7 @@ namespace PruebaRendimientoForms {
 				cntItems += cantidad;
 
 			foreach(Reportaje reportaje in this.reportajes)
-				reportaje.BarraProgreso.Preparar(tipos.Length, this.reportajes.Length, cntItems);
+				reportaje.BarraProgreso.Preparar(tipos.Length, cntItems);
 		}
 
 		private void BtnComprobar_Click(object sender, EventArgs e) {
@@ -119,8 +119,6 @@ namespace PruebaRendimientoForms {
 				reportaje.EscribirSincronico($"    . Por Test: {FormatearIntervalo(reportaje.PromedioPorTest)}");
 				reportaje.EscribirSincronico($"    . c/100 Items: {FormatearIntervalo(reportaje.PromedioCada100Items)}");
 				reportaje.EscribirSincronico($"  • Total: {FormatearIntervalo(reportaje.TiempoTotal)}");
-
-				reportaje.BarraProgreso.Detener();
 			}
 
 			this.btnResultados.Text = "Probar Rendimiento";
@@ -190,6 +188,7 @@ namespace PruebaRendimientoForms {
 			}
 
 			reportaje.CargarTotales(total, cantidadTestsProcesados, cantidadItemsProcesados);
+			reportaje.BarraProgreso.Detener();
 		}
 
 		private void ActualizarInterfaz() {

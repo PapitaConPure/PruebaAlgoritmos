@@ -22,6 +22,7 @@ namespace PruebaRendimientoForms {
 
 		public static object[] Ordenar(int n, int idMetodo, int idTipo) {
 			object[] vec = new object[n];
+			random = new Random(0);
 
 			if(idTipo == TIPO_INT16.Id)
 				OrdenarInt16(n, idMetodo).CopyTo(vec, 0);
@@ -46,6 +47,8 @@ namespace PruebaRendimientoForms {
 		}
 
 		public static void OrdenarSinCopiar(int n, int idMetodo, int idTipo) {
+			random = new Random(0);
+
 			if(idTipo == TIPO_INT16.Id)
 				OrdenarInt16(n, idMetodo);
 			else if(idTipo == TIPO_INT32.Id)
@@ -67,8 +70,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static short[] OrdenarInt16(int n, int idx) {
-			random = new Random(0);
-
 			short[] vec = new short[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (short)random.Next(short.MaxValue);
@@ -86,8 +87,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static int[] OrdenarInt32(int n, int idx) {
-			random = new Random(0);
-
 			int[] vec = new int[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = random.Next();
@@ -105,8 +104,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static long[] OrdenarInt64(int n, int idx) {
-			random = new Random(0);
-
 			long[] vec = new long[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (long)(random.NextDouble() * long.MaxValue);
@@ -124,8 +121,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static float[] OrdenarFloat32(int n, int idx) {
-			random = new Random(0);
-
 			float[] vec = new float[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (float)random.NextDouble() * 100;
@@ -143,8 +138,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static double[] OrdenarFloat64(int n, int idx) {
-			random = new Random(0);
-
 			double[] vec = new double[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = random.NextDouble() * 10000;
@@ -162,8 +155,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static decimal[] OrdenarDecimal128(int n, int idx) {
-			random = new Random(0);
-
 			decimal[] vec = new decimal[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (decimal)random.NextDouble() * 100000000;
@@ -181,8 +172,6 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static char[] OrdenarChar(int n, int idx) {
-			random = new Random(0);
-
 			char[] vec = new char[n];
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (char)random.Next(32, 127);
@@ -200,8 +189,7 @@ namespace PruebaRendimientoForms {
 		}
 
 		private static string[] OrdenarString(int n, int w, int idx) {
-			random = new Random(0);
-
+			#region Generar caracteres aleatorios
 			string[] caracteres = new string[] {
 				"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Ñ",
 				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "ñ",
@@ -217,6 +205,7 @@ namespace PruebaRendimientoForms {
 					s += caracteres[random.Next(caracteres.Length)];
 				vec[i] = s;
 			}
+			#endregion
 
 			if(idx == METODO_BUBBLE_SORT.Id)
 				OrdenamientoString.BubbleSort(vec);
