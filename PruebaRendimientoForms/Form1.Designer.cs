@@ -24,7 +24,7 @@ namespace PruebaRendimientoForms {
 		/// el contenido de este método con el editor de código.
 		/// </summary>
 		private void InitializeComponent() {
-			this.btnProbar = new System.Windows.Forms.Button();
+			this.btnComprobar = new System.Windows.Forms.Button();
 			this.btnResultados = new System.Windows.Forms.Button();
 			this.gbComprobacion = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -69,20 +69,20 @@ namespace PruebaRendimientoForms {
 			// 
 			// btnProbar
 			// 
-			this.btnProbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.btnComprobar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnProbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
-			this.btnProbar.FlatAppearance.BorderSize = 0;
-			this.btnProbar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnProbar.Font = new System.Drawing.Font("Berlin Sans FB Demi", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnProbar.ForeColor = System.Drawing.Color.White;
-			this.btnProbar.Location = new System.Drawing.Point(6, 537);
-			this.btnProbar.Name = "btnProbar";
-			this.btnProbar.Size = new System.Drawing.Size(169, 46);
-			this.btnProbar.TabIndex = 0;
-			this.btnProbar.Text = "Comprobar";
-			this.btnProbar.UseVisualStyleBackColor = false;
-			this.btnProbar.Click += new System.EventHandler(this.BtnComprobar_Click);
+			this.btnComprobar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
+			this.btnComprobar.FlatAppearance.BorderSize = 0;
+			this.btnComprobar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnComprobar.Font = new System.Drawing.Font("Berlin Sans FB Demi", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnComprobar.ForeColor = System.Drawing.Color.White;
+			this.btnComprobar.Location = new System.Drawing.Point(6, 537);
+			this.btnComprobar.Name = "btnProbar";
+			this.btnComprobar.Size = new System.Drawing.Size(169, 46);
+			this.btnComprobar.TabIndex = 3;
+			this.btnComprobar.Text = "Comprobar";
+			this.btnComprobar.UseVisualStyleBackColor = false;
+			this.btnComprobar.Click += new System.EventHandler(this.BtnComprobar_Click);
 			// 
 			// btnResultados
 			// 
@@ -96,7 +96,7 @@ namespace PruebaRendimientoForms {
 			this.btnResultados.Location = new System.Drawing.Point(6, 537);
 			this.btnResultados.Name = "btnResultados";
 			this.btnResultados.Size = new System.Drawing.Size(866, 46);
-			this.btnResultados.TabIndex = 1;
+			this.btnResultados.TabIndex = 4;
 			this.btnResultados.Text = "Probar Rendimiento";
 			this.btnResultados.UseVisualStyleBackColor = false;
 			this.btnResultados.Click += new System.EventHandler(this.BtnResultados_Click);
@@ -106,13 +106,13 @@ namespace PruebaRendimientoForms {
 			this.gbComprobacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gbComprobacion.Controls.Add(this.tableLayoutPanel1);
-			this.gbComprobacion.Controls.Add(this.btnProbar);
+			this.gbComprobacion.Controls.Add(this.btnComprobar);
 			this.gbComprobacion.Font = new System.Drawing.Font("Century Gothic", 8F, System.Drawing.FontStyle.Bold);
 			this.gbComprobacion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
 			this.gbComprobacion.Location = new System.Drawing.Point(12, 12);
 			this.gbComprobacion.Name = "gbComprobacion";
 			this.gbComprobacion.Size = new System.Drawing.Size(181, 589);
-			this.gbComprobacion.TabIndex = 2;
+			this.gbComprobacion.TabIndex = 0;
 			this.gbComprobacion.TabStop = false;
 			this.gbComprobacion.Text = "Comprobar Funcionamiento";
 			// 
@@ -130,7 +130,7 @@ namespace PruebaRendimientoForms {
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 118F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(169, 511);
-			this.tableLayoutPanel1.TabIndex = 24;
+			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// gbControl
 			// 
@@ -141,7 +141,7 @@ namespace PruebaRendimientoForms {
 			this.gbControl.Location = new System.Drawing.Point(3, 396);
 			this.gbControl.Name = "gbControl";
 			this.gbControl.Size = new System.Drawing.Size(163, 112);
-			this.gbControl.TabIndex = 25;
+			this.gbControl.TabIndex = 0;
 			this.gbControl.TabStop = false;
 			this.gbControl.Text = "Control";
 			// 
@@ -163,7 +163,8 @@ namespace PruebaRendimientoForms {
 			this.splitContainer1.Panel2.Controls.Add(this.nudCantidad);
 			this.splitContainer1.Size = new System.Drawing.Size(151, 46);
 			this.splitContainer1.SplitterDistance = 90;
-			this.splitContainer1.TabIndex = 23;
+			this.splitContainer1.TabIndex = 0;
+			this.splitContainer1.TabStop = false;
 			// 
 			// cmbTipo
 			// 
@@ -177,7 +178,7 @@ namespace PruebaRendimientoForms {
 			this.cmbTipo.Margin = new System.Windows.Forms.Padding(3, 3, 3, 24);
 			this.cmbTipo.Name = "cmbTipo";
 			this.cmbTipo.Size = new System.Drawing.Size(87, 21);
-			this.cmbTipo.TabIndex = 24;
+			this.cmbTipo.TabIndex = 0;
 			// 
 			// lblTipo
 			// 
@@ -222,12 +223,14 @@ namespace PruebaRendimientoForms {
             0});
 			this.nudCantidad.Name = "nudCantidad";
 			this.nudCantidad.Size = new System.Drawing.Size(51, 20);
-			this.nudCantidad.TabIndex = 19;
+			this.nudCantidad.TabIndex = 1;
 			this.nudCantidad.Value = new decimal(new int[] {
             10,
             0,
             0,
             0});
+			this.nudCantidad.Click += new System.EventHandler(this.NudCantidad_Focused);
+			this.nudCantidad.Enter += new System.EventHandler(this.NudCantidad_Focused);
 			// 
 			// cmbMetodo
 			// 
@@ -241,7 +244,7 @@ namespace PruebaRendimientoForms {
 			this.cmbMetodo.Margin = new System.Windows.Forms.Padding(3, 3, 3, 24);
 			this.cmbMetodo.Name = "cmbMetodo";
 			this.cmbMetodo.Size = new System.Drawing.Size(151, 21);
-			this.cmbMetodo.TabIndex = 17;
+			this.cmbMetodo.TabIndex = 2;
 			// 
 			// lblMetodo
 			// 
@@ -268,6 +271,7 @@ namespace PruebaRendimientoForms {
 			this.lsbNumeros.SelectionMode = System.Windows.Forms.SelectionMode.None;
 			this.lsbNumeros.Size = new System.Drawing.Size(163, 387);
 			this.lsbNumeros.TabIndex = 10;
+			this.lsbNumeros.TabStop = false;
 			// 
 			// gbRendimiento
 			// 
@@ -281,7 +285,7 @@ namespace PruebaRendimientoForms {
 			this.gbRendimiento.Location = new System.Drawing.Point(199, 12);
 			this.gbRendimiento.Name = "gbRendimiento";
 			this.gbRendimiento.Size = new System.Drawing.Size(878, 589);
-			this.gbRendimiento.TabIndex = 3;
+			this.gbRendimiento.TabIndex = 0;
 			this.gbRendimiento.TabStop = false;
 			this.gbRendimiento.Text = "Pruebas de Rendimiento";
 			// 
@@ -337,6 +341,7 @@ namespace PruebaRendimientoForms {
 			this.lsbBubble.Name = "lsbBubble";
 			this.lsbBubble.Size = new System.Drawing.Size(198, 449);
 			this.lsbBubble.TabIndex = 1;
+			this.lsbBubble.TabStop = false;
 			// 
 			// gbMerge
 			// 
@@ -364,6 +369,7 @@ namespace PruebaRendimientoForms {
 			this.lsbMerge.Name = "lsbMerge";
 			this.lsbMerge.Size = new System.Drawing.Size(198, 449);
 			this.lsbMerge.TabIndex = 1;
+			this.lsbMerge.TabStop = false;
 			// 
 			// gbSelection
 			// 
@@ -391,6 +397,7 @@ namespace PruebaRendimientoForms {
 			this.lsbSelection.Name = "lsbSelection";
 			this.lsbSelection.Size = new System.Drawing.Size(198, 449);
 			this.lsbSelection.TabIndex = 1;
+			this.lsbSelection.TabStop = false;
 			// 
 			// gbQuick
 			// 
@@ -418,6 +425,7 @@ namespace PruebaRendimientoForms {
 			this.lsbQuick.Name = "lsbQuick";
 			this.lsbQuick.Size = new System.Drawing.Size(200, 449);
 			this.lsbQuick.TabIndex = 1;
+			this.lsbQuick.TabStop = false;
 			// 
 			// pgbBubble
 			// 
@@ -466,9 +474,11 @@ namespace PruebaRendimientoForms {
 			this.ClientSize = new System.Drawing.Size(1089, 613);
 			this.Controls.Add(this.gbRendimiento);
 			this.Controls.Add(this.gbComprobacion);
+			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(748, 304);
 			this.Name = "Form1";
 			this.Text = "Prueba de Rendimiento";
+			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
 			this.gbComprobacion.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.gbControl.ResumeLayout(false);
@@ -492,7 +502,7 @@ namespace PruebaRendimientoForms {
 
 		#endregion
 
-		private System.Windows.Forms.Button btnProbar;
+		private System.Windows.Forms.Button btnComprobar;
 		private System.Windows.Forms.Button btnResultados;
 		private System.Windows.Forms.GroupBox gbComprobacion;
 		private System.Windows.Forms.GroupBox gbRendimiento;

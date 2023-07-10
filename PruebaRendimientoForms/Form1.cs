@@ -29,6 +29,9 @@ namespace PruebaRendimientoForms {
 			5_000_000,
 		};
 
+		//Para omitir ordenamientos que pueden llegar tardar demasiado tiempo con ciertos tipos o cantidad de elementos
+		//Poné "permitirOmisiones" en false si querés evitar este efecto
+		private static readonly bool permitirOmisiones = true;
 		private static readonly Omision[] omisiones = new Omision[] {
 			new Omision()
 				.DeMetodo(CtrlOrd.METODO_BUBBLE_SORT.Id)
@@ -46,6 +49,11 @@ namespace PruebaRendimientoForms {
 					    CtrlOrd.TIPO_STRING8.Id,
 						CtrlOrd.TIPO_STRING32.Id)
 				.DesdeCantidad(500_000),
+			new Omision()
+				.DeMetodo(CtrlOrd.METODO_QUICK_SORT.Id)
+				.DeTipo(CtrlOrd.TIPO_DECIMAL128.Id,
+						CtrlOrd.TIPO_STRING32.Id)
+				.DesdeCantidad(5_000_000),
 		};
 		#endregion
 
@@ -56,6 +64,7 @@ namespace PruebaRendimientoForms {
 
 			CheckForIllegalCrossThreadCalls = false;
 
+			#region Preparar Controles
 			this.cmbMetodo.Items.Add(CtrlOrd.METODO_BUBBLE_SORT.Muestra);
 			this.cmbMetodo.Items.Add(CtrlOrd.METODO_MERGE_SORT.Muestra);
 			this.cmbMetodo.Items.Add(CtrlOrd.METODO_SELECTION_SORT.Muestra);
@@ -72,7 +81,9 @@ namespace PruebaRendimientoForms {
 			this.cmbTipo.Items.Add(CtrlOrd.TIPO_STRING8.Muestra);
 			this.cmbTipo.Items.Add(CtrlOrd.TIPO_STRING32.Muestra);
 			this.cmbTipo.SelectedIndex = 0;
+			#endregion
 
+			#region Preparar Reportajes
 			this.reportajes = new Reportaje[] {
 				new Reportaje(this.lsbBubble,    this.pgbBubble,    CtrlOrd.METODO_BUBBLE_SORT),
 				new Reportaje(this.lsbMerge,     this.pgbMerge,     CtrlOrd.METODO_MERGE_SORT),
@@ -80,16 +91,16 @@ namespace PruebaRendimientoForms {
 				new Reportaje(this.lsbQuick,     this.pgbQuick,     CtrlOrd.METODO_QUICK_SORT)
 			};
 
-			#region Calcular máximo de elementos sin omisiones consideradas
 			int cntItems = 0;
 			foreach(int cantidad in cantidadesElementos)
 				cntItems += cantidad;
-			#endregion
 
 			foreach(Reportaje reportaje in this.reportajes)
 				reportaje.BarraProgreso.Preparar(tipos.Length, cntItems);
+			#endregion
 		}
 
+		#region Interacciones con el Formulario
 		private void BtnComprobar_Click(object sender, EventArgs e) {
 			int n = (int)this.nudCantidad.Value;
 			int idMetodo = this.cmbMetodo.SelectedIndex;
@@ -99,21 +110,108 @@ namespace PruebaRendimientoForms {
 		}
 
 		private void BtnResultados_Click(object sender, EventArgs e) {
+			long totalElementos = 0;
+
+			foreach(int cantidadElementos in cantidadesElementos)
+				totalElementos += cantidadElementos;
+
+			totalElementos *= tipos.Length;
+			totalElementos *= 4;
+
+			DialogResult confirmacion = MessageBox.Show(
+				"¿Estás seguro de que deseas comenzar las pruebas?\n\n" +
+				$"Se van a ordenar un total de {totalElementos:###,###,###,###} elementos, sin ignorar las pruebas omitidas.\n\n" +
+				"Los ordenamientos se ejecutarán en paralelo por método hasta concluirse o hasta que se cierre el programa. Se recomienda un CPU de al menos 4 núcleos.\n\n" +
+				"Esto puede demorar días. Esta acción no puede cancelarse.",
+
+				"Comenzar Prueba de Rendimiento",
+
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Warning
+			);
+
+			if(confirmacion != DialogResult.OK)
+				return;
+
 			this.btnResultados.Text = "Ordenando...";
 			this.btnResultados.Enabled = false;
 
-			Task.Run(this.ActualizarInterfaz);
+			Task.Run(this.ReportajeInterfaz_DoWork);
 			Task.WhenAll(
-				Task.Run(this.BgwBubble_DoWork),
-				Task.Run(this.BgwMerge_DoWork),
-				Task.Run(this.BgwSelection_DoWork),
-				Task.Run(this.BgwQuick_DoWork)
+				Task.Run(this.BubbleSort_DoWork),
+				Task.Run(this.MergeSort_DoWork),
+				Task.Run(this.SelectionSort_DoWork),
+				Task.Run(this.QuickSort_DoWork)
 			).ContinueWith(delegate {
-				this.ConcluirOrdenamientos();
+				this.Finalizacion_DoWork();
 			});
 		}
 
-		private void ConcluirOrdenamientos() {
+		private void Form1_KeyPress(object sender, KeyPressEventArgs e) {
+			char tecla = char.ToUpper(e.KeyChar);
+
+			if(tecla == 'C')
+				this.btnComprobar.PerformClick();
+
+			if(tecla == 'R')
+				this.btnResultados.PerformClick();
+
+			if(nudCantidad.Focused) {
+				if(tecla == (char)Keys.Escape)
+					this.cmbMetodo.Focus();
+
+				return;
+			}
+
+			switch(tecla) {
+			case '1':
+				AlternarComboBox(this.cmbTipo);
+				break;
+			case '2':
+				this.nudCantidad.Focus();
+				break;
+			case '3':
+				AlternarComboBox(this.cmbMetodo);
+				break;
+			}
+		}
+
+		private void NudCantidad_Focused(object sender, EventArgs e) {
+			this.nudCantidad.Select(0, 5);
+		}
+		#endregion
+
+		#region Hilos
+		private void BubbleSort_DoWork() {
+			if(usarBubble)
+				this.ProbarMetodo(CtrlOrd.METODO_BUBBLE_SORT);
+		}
+
+		private void MergeSort_DoWork() {
+			if(usarMerge)
+				this.ProbarMetodo(CtrlOrd.METODO_MERGE_SORT);
+		}
+
+		private void SelectionSort_DoWork() {
+			if(usarSelection)
+				this.ProbarMetodo(CtrlOrd.METODO_SELECTION_SORT);
+		}
+
+		private void QuickSort_DoWork() {
+			if(usarQuick)
+				this.ProbarMetodo(CtrlOrd.METODO_QUICK_SORT);
+		}
+
+		private void ReportajeInterfaz_DoWork() {
+			foreach(Reportaje reportaje in this.reportajes)
+				reportaje.Preparar();
+
+			while(!this.btnResultados.Enabled)
+				foreach(Reportaje reportaje in this.reportajes)
+					reportaje.Actualizar();
+		}
+
+		private void Finalizacion_DoWork() {
 			#region Asegurarse de vaciar reportajes primero
 			bool proceder;
 			do {
@@ -127,35 +225,15 @@ namespace PruebaRendimientoForms {
 			this.btnResultados.Text = "Probar Rendimiento";
 			this.btnResultados.Enabled = true;
 		}
+		#endregion
 
-		private void BgwBubble_DoWork() {
-			if(usarBubble)
-				this.ProbarMetodo(CtrlOrd.METODO_BUBBLE_SORT);
-		}
-
-		private void BgwMerge_DoWork() {
-			if(usarMerge)
-				this.ProbarMetodo(CtrlOrd.METODO_MERGE_SORT);
-		}
-
-		private void BgwSelection_DoWork() {
-			if(usarSelection)
-				this.ProbarMetodo(CtrlOrd.METODO_SELECTION_SORT);
-		}
-
-		private void BgwQuick_DoWork() {
-			if(usarQuick)
-				this.ProbarMetodo(CtrlOrd.METODO_QUICK_SORT);
-		}
-
+		#region Funcionalidad
 		private void ProbarMetodo(Opcion metodo) {
 			Reportaje reportaje = this.reportajes[metodo.Id];
 			TimeSpan total = new TimeSpan();
 			TimeSpan diff;
 			DateTime fi, ff;
 			int cantidadTestsProcesados = 0, cantidadItemsProcesados = 0;
-			int ol = omisiones.Length;
-			int i;
 
 			reportaje.BarraProgreso.Comenzar();
 
@@ -163,15 +241,7 @@ namespace PruebaRendimientoForms {
 				reportaje.Escribir($"♦ Tiempos de {tipo.Muestra}");
 
 				foreach(int cantidadElementos in cantidadesElementos) {
-					bool procesar = true;
-					i = 0;
-					do {
-						if(omisiones[i].EsOmitido(tipo.Id, metodo.Id, cantidadElementos))
-							procesar = false;
-						i++;
-					} while(procesar && i < ol);
-
-					if(!procesar)
+					if(!TestSeProcesa(tipo, metodo, cantidadElementos))
 						continue;
 
 					fi = DateTime.Now;
@@ -191,7 +261,32 @@ namespace PruebaRendimientoForms {
 
 			reportaje.CargarTotales(total, cantidadTestsProcesados, cantidadItemsProcesados);
 			reportaje.BarraProgreso.Detener();
+			EscribirReporteFinal(reportaje);
+		}
+		
+		private void MostrarVectorComprobacion(object[] vec) {
+			this.lsbNumeros.Items.Clear();
+			for(int i = 0; i < vec.Length; i++)
+				this.lsbNumeros.Items.Add(vec[i]);
+		}
 
+		private static bool TestSeProcesa(Opcion tipo, Opcion metodo, int cantidadElementos) {
+			if(!permitirOmisiones)
+				return true;
+
+			bool procesar = true;
+
+			int i = 0;
+			do {
+				if(omisiones[i].EsOmitido(tipo.Id, metodo.Id, cantidadElementos))
+					procesar = false;
+				i++;
+			} while(procesar && i < omisiones.Length);
+
+			return procesar;
+		}
+
+		private static void EscribirReporteFinal(Reportaje reportaje) {
 			reportaje.Escribir("♦ Tiempos Totales:");
 			reportaje.Escribir("  • Promedio:");
 			reportaje.Escribir($"    . Por Test: {Reportaje.FormatearIntervalo(reportaje.PromedioPorTest)}");
@@ -201,19 +296,13 @@ namespace PruebaRendimientoForms {
 			reportaje.Escribir("✔ Finalizado");
 		}
 
-		private void ActualizarInterfaz() {
-			foreach(Reportaje reportaje in this.reportajes)
-				reportaje.Preparar();
-
-			while(!this.btnResultados.Enabled)
-				foreach(Reportaje reportaje in this.reportajes)
-					reportaje.Actualizar();
+		private static void AlternarComboBox(ComboBox comboBox) {
+			comboBox.Focus();
+			if(comboBox.SelectedIndex == comboBox.Items.Count - 1)
+				comboBox.SelectedIndex = 0;
+			else
+				comboBox.SelectedIndex++;
 		}
-
-		private void MostrarVectorComprobacion(object[] vec) {
-			this.lsbNumeros.Items.Clear();
-			for(int i = 0; i < vec.Length; i++)
-				this.lsbNumeros.Items.Add(vec[i]);
-		}
+		#endregion
 	}
 }
