@@ -80,10 +80,11 @@ namespace PruebaRendimientoForms {
 				new Reportaje(this.lsbQuick,     this.pgbQuick,     CtrlOrd.METODO_QUICK_SORT)
 			};
 
-			//Calcular máximo de elementos sin omisiones consideradas
+			#region Calcular máximo de elementos sin omisiones consideradas
 			int cntItems = 0;
 			foreach(int cantidad in cantidadesElementos)
 				cntItems += cantidad;
+			#endregion
 
 			foreach(Reportaje reportaje in this.reportajes)
 				reportaje.BarraProgreso.Preparar(tipos.Length, cntItems);
@@ -113,13 +114,15 @@ namespace PruebaRendimientoForms {
 		}
 
 		private void ConcluirOrdenamientos() {
-			foreach(Reportaje reportaje in this.reportajes) {
-				reportaje.EscribirSincronico("✔ Finalizado. Tiempos:");
-				reportaje.EscribirSincronico("  • Promedio:");
-				reportaje.EscribirSincronico($"    . Por Test: {FormatearIntervalo(reportaje.PromedioPorTest)}");
-				reportaje.EscribirSincronico($"    . c/100 Items: {FormatearIntervalo(reportaje.PromedioCada100Items)}");
-				reportaje.EscribirSincronico($"  • Total: {FormatearIntervalo(reportaje.TiempoTotal)}");
-			}
+			#region Asegurarse de vaciar reportajes primero
+			bool proceder;
+			do {
+				proceder = true;
+				foreach(Reportaje reportaje in this.reportajes)
+					if(!reportaje.Actualizado)
+						proceder = false;
+			} while(!proceder);
+			#endregion
 
 			this.btnResultados.Text = "Probar Rendimiento";
 			this.btnResultados.Enabled = true;
@@ -156,7 +159,6 @@ namespace PruebaRendimientoForms {
 
 			reportaje.BarraProgreso.Comenzar();
 
-			reportaje.Escribir(null);
 			foreach(Opcion tipo in tipos) {
 				reportaje.Escribir($"♦ Tiempos de {tipo.Muestra}");
 
@@ -181,7 +183,7 @@ namespace PruebaRendimientoForms {
 					cantidadTestsProcesados++;
 					cantidadItemsProcesados += cantidadElementos;
 					reportaje.BarraProgreso.Aumentar(cantidadElementos);
-					reportaje.Escribir($"  • {cantidadElementos:###,###,###,###}: {FormatearIntervalo(diff)}");
+					reportaje.Escribir($"  • {cantidadElementos:###,###,###,###}: {Reportaje.FormatearIntervalo(diff)}");
 				}
 
 				this.reportajes[metodo.Id].Escribir("");
@@ -189,29 +191,23 @@ namespace PruebaRendimientoForms {
 
 			reportaje.CargarTotales(total, cantidadTestsProcesados, cantidadItemsProcesados);
 			reportaje.BarraProgreso.Detener();
+
+			reportaje.Escribir("♦ Tiempos Totales:");
+			reportaje.Escribir("  • Promedio:");
+			reportaje.Escribir($"    . Por Test: {Reportaje.FormatearIntervalo(reportaje.PromedioPorTest)}");
+			reportaje.Escribir($"    . c/100 Items: {Reportaje.FormatearIntervalo(reportaje.PromedioCada100Items)}");
+			reportaje.Escribir($"  • Acumulado: {Reportaje.FormatearIntervalo(reportaje.TiempoTotal)}");
+			reportaje.Escribir("");
+			reportaje.Escribir("✔ Finalizado");
 		}
 
 		private void ActualizarInterfaz() {
 			foreach(Reportaje reportaje in this.reportajes)
 				reportaje.Preparar();
 
-			while(!this.btnResultados.Enabled) {
+			while(!this.btnResultados.Enabled)
 				foreach(Reportaje reportaje in this.reportajes)
 					reportaje.Actualizar();
-			}
-		}
-
-		private static string FormatearIntervalo(TimeSpan t) {
-			string formato = "";
-
-			if(t.Hours > 0)
-				formato += $"{t.Hours}h ";
-			if(t.Minutes > 0)
-				formato += $"{t.Minutes}m ";
-
-			formato += $"{t.Seconds}s {t.Milliseconds}ms";
-
-			return formato;
 		}
 
 		private void MostrarVectorComprobacion(object[] vec) {

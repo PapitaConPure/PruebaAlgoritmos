@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace PruebaRendimientoForms {
 	class Reportaje {
-		private readonly Queue<string> actualizaciones;
 		private readonly ListBox listBox;
+		private readonly ConcurrentQueue<string> filaReportes;
 
 		public Reportaje(ListBox listBox, ProgressBar barra, Opcion metodo) {
 			this.BarraProgreso = new Progreso(barra, metodo);
 			this.listBox = listBox;
-			this.actualizaciones = new Queue<string>();
+			this.filaReportes = new ConcurrentQueue<string>();
 
 			this.TiempoTotal = new TimeSpan(0);
 			this.PromedioPorTest = new TimeSpan(0);
 			this.PromedioCada100Items = new TimeSpan(0);
 		}
 
+		#region Propiedades
 		public TimeSpan TiempoTotal { get; private set; }
 
 		public TimeSpan PromedioPorTest { get; private set; }
@@ -25,7 +26,31 @@ namespace PruebaRendimientoForms {
 
 		public Progreso BarraProgreso { get; private set; }
 
+		public bool Actualizado {
+			get {
+				return this.filaReportes.IsEmpty;
+			}
+		}
+		#endregion
+
 		#region Acciones de Proceso de Reporte
+		public static string FormatearIntervalo(TimeSpan t) {
+			string formato = "";
+
+			if(t.Days > 0)
+				formato += $"{t.Days}D";
+			if(t.Hours > 0)
+				formato += $"{t.Hours}h";
+			if(t.Minutes > 0)
+				formato += $"{t.Minutes}m";
+			if(t.Seconds > 0)
+				formato += $"{t.Seconds}s";
+
+			formato += $"{t.Milliseconds}ms";
+
+			return formato;
+		}
+
 		public void Preparar() {
 			this.listBox.Items.Clear();
 		}
@@ -34,8 +59,8 @@ namespace PruebaRendimientoForms {
 			this.BarraProgreso.Actualizar();
 
 			string actualizacion;
-			while(this.actualizaciones.Count > 0) {
-				actualizacion = this.actualizaciones.Dequeue();
+			while(this.filaReportes.Count > 0) {
+				actualizacion = this.Leer();
 				if(actualizacion != null) {
 					this.listBox.Items.Add(actualizacion);
 					this.listBox.SelectedIndex = this.listBox.Items.Count - 1;
@@ -48,20 +73,18 @@ namespace PruebaRendimientoForms {
 			this.PromedioPorTest = new TimeSpan(total.Ticks / cantidadTestsProcesados);
 			this.PromedioCada100Items = new TimeSpan(total.Ticks / (cantidadItemsProcesados / 100));
 		}
-		#endregion
 
-		#region ListBox
 		public void Escribir(string item) {
-			this.actualizaciones.Enqueue(item);
+			this.filaReportes.Enqueue(item);
 		}
 
-		public void EscribirSincronico(string item) {
-			this.listBox.Items.Add(item);
-			this.listBox.SelectedIndex = this.listBox.Items.Count - 1;
-		}
+		private string Leer() {
+			if(this.filaReportes.IsEmpty)
+				return null;
 
-		public string Leer() {
-			return this.actualizaciones.Dequeue();
+			string item;
+			this.filaReportes.TryDequeue(out item);
+			return item;
 		}
 		#endregion
 	}
