@@ -35,6 +35,9 @@ namespace PruebaRendimientoForms {
 
 		#region Acciones de Proceso de Reporte
 		public static string FormatearIntervalo(TimeSpan t) {
+			if(t.TotalMilliseconds < 1)
+				return $"{t.Ticks}T";
+
 			string formato = "";
 
 			if(t.Days > 0)
