@@ -96,7 +96,7 @@ namespace PruebaRendimientoForms.Ordenamientos {
 
 				while(izq <= der) {
 					while(izq <= fin && vec[izq] <= pivote) izq++;
-					while(inicio < der && pivote < vec[der]) der--;
+					while(inicio < der && pivote <= vec[der]) der--;
 
 					if(izq < der)
 						Intercambiar(vec, izq, der);
@@ -105,14 +105,13 @@ namespace PruebaRendimientoForms.Ordenamientos {
 				vec[der] = pivote;
 				#endregion
 
-				if(inicio < der - 1) {
+				if(inicio <= der - 1) {
 					#region Push
 					stack[cnt++] = inicio;
 					stack[cnt++] = der - 1;
 					#endregion
 				}
-
-				if(der + 1 < fin) {
+				if(der + 1 <= fin) {
 					#region Push
 					stack[cnt++] = der + 1;
 					stack[cnt++] = fin;
@@ -221,7 +220,7 @@ namespace PruebaRendimientoForms.Ordenamientos {
 
 				while(izq <= der) {
 					while(izq <= fin && vec[izq] <= pivote) izq++;
-					while(inicio < der && pivote < vec[der]) der--;
+					while(inicio < der && pivote <= vec[der]) der--;
 
 					if(izq < der)
 						Intercambiar(vec, izq, der);
@@ -230,14 +229,13 @@ namespace PruebaRendimientoForms.Ordenamientos {
 				vec[der] = pivote;
 				#endregion
 
-				if(inicio < der - 1) {
+				if(inicio <= der - 1) {
 					#region Push
 					stack[cnt++] = inicio;
 					stack[cnt++] = der - 1;
 					#endregion
 				}
-
-				if(der + 1 < fin) {
+				if(der + 1 <= fin) {
 					#region Push
 					stack[cnt++] = der + 1;
 					stack[cnt++] = fin;
@@ -346,7 +344,7 @@ namespace PruebaRendimientoForms.Ordenamientos {
 
 				while(izq <= der) {
 					while(izq <= fin && vec[izq] <= pivote) izq++;
-					while(inicio < der && pivote < vec[der]) der--;
+					while(inicio < der && pivote <= vec[der]) der--;
 
 					if(izq < der)
 						Intercambiar(vec, izq, der);
@@ -355,14 +353,13 @@ namespace PruebaRendimientoForms.Ordenamientos {
 				vec[der] = pivote;
 				#endregion
 
-				if(inicio < der - 1) {
+				if(inicio <= der - 1) {
 					#region Push
 					stack[cnt++] = inicio;
 					stack[cnt++] = der - 1;
 					#endregion
 				}
-
-				if(der + 1 < fin) {
+				if(der + 1 <= fin) {
 					#region Push
 					stack[cnt++] = der + 1;
 					stack[cnt++] = fin;
