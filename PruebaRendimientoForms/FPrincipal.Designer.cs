@@ -1,6 +1,6 @@
 ﻿
 namespace PruebaRendimientoForms {
-	partial class Form1 {
+	partial class FPrincipal {
 		/// <summary>
 		/// Variable del diseñador necesaria.
 		/// </summary>
@@ -51,6 +51,10 @@ namespace PruebaRendimientoForms {
 			this.pgbMerge = new System.Windows.Forms.ProgressBar();
 			this.pgbSelection = new System.Windows.Forms.ProgressBar();
 			this.pgbQuick = new System.Windows.Forms.ProgressBar();
+			this.tbBubble = new System.Windows.Forms.TextBox();
+			this.tbMerge = new System.Windows.Forms.TextBox();
+			this.tbSelection = new System.Windows.Forms.TextBox();
+			this.tbQuick = new System.Windows.Forms.TextBox();
 			this.gbComprobacion.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.gbControl.SuspendLayout();
@@ -67,7 +71,7 @@ namespace PruebaRendimientoForms {
 			this.gbQuick.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// btnProbar
+			// btnComprobar
 			// 
 			this.btnComprobar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -77,7 +81,7 @@ namespace PruebaRendimientoForms {
 			this.btnComprobar.Font = new System.Drawing.Font("Berlin Sans FB Demi", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnComprobar.ForeColor = System.Drawing.Color.White;
 			this.btnComprobar.Location = new System.Drawing.Point(6, 537);
-			this.btnComprobar.Name = "btnProbar";
+			this.btnComprobar.Name = "btnComprobar";
 			this.btnComprobar.Size = new System.Drawing.Size(169, 46);
 			this.btnComprobar.TabIndex = 3;
 			this.btnComprobar.Text = "Comprobar";
@@ -208,7 +212,7 @@ namespace PruebaRendimientoForms {
 			this.nudCantidad.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.nudCantidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.nudCantidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+			this.nudCantidad.Font = new System.Drawing.Font("Lato", 8.25F);
 			this.nudCantidad.Location = new System.Drawing.Point(3, 19);
 			this.nudCantidad.Margin = new System.Windows.Forms.Padding(3, 3, 3, 24);
 			this.nudCantidad.Maximum = new decimal(new int[] {
@@ -222,7 +226,7 @@ namespace PruebaRendimientoForms {
             0,
             0});
 			this.nudCantidad.Name = "nudCantidad";
-			this.nudCantidad.Size = new System.Drawing.Size(51, 20);
+			this.nudCantidad.Size = new System.Drawing.Size(51, 21);
 			this.nudCantidad.TabIndex = 1;
 			this.nudCantidad.Value = new decimal(new int[] {
             10,
@@ -303,14 +307,19 @@ namespace PruebaRendimientoForms {
 			this.tlpResultados.Controls.Add(this.gbMerge, 1, 0);
 			this.tlpResultados.Controls.Add(this.gbSelection, 2, 0);
 			this.tlpResultados.Controls.Add(this.gbQuick, 3, 0);
-			this.tlpResultados.Controls.Add(this.pgbBubble, 0, 1);
-			this.tlpResultados.Controls.Add(this.pgbMerge, 1, 1);
-			this.tlpResultados.Controls.Add(this.pgbSelection, 2, 1);
-			this.tlpResultados.Controls.Add(this.pgbQuick, 3, 1);
+			this.tlpResultados.Controls.Add(this.pgbBubble, 0, 2);
+			this.tlpResultados.Controls.Add(this.pgbMerge, 1, 2);
+			this.tlpResultados.Controls.Add(this.pgbSelection, 2, 2);
+			this.tlpResultados.Controls.Add(this.pgbQuick, 3, 2);
+			this.tlpResultados.Controls.Add(this.tbBubble, 0, 1);
+			this.tlpResultados.Controls.Add(this.tbMerge, 1, 1);
+			this.tlpResultados.Controls.Add(this.tbSelection, 2, 1);
+			this.tlpResultados.Controls.Add(this.tbQuick, 3, 1);
 			this.tlpResultados.Location = new System.Drawing.Point(6, 20);
 			this.tlpResultados.Name = "tlpResultados";
-			this.tlpResultados.RowCount = 2;
+			this.tlpResultados.RowCount = 3;
 			this.tlpResultados.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tlpResultados.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tlpResultados.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tlpResultados.Size = new System.Drawing.Size(866, 511);
 			this.tlpResultados.TabIndex = 11;
@@ -323,7 +332,7 @@ namespace PruebaRendimientoForms {
 			this.gbBubble.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.gbBubble.Location = new System.Drawing.Point(3, 3);
 			this.gbBubble.Name = "gbBubble";
-			this.gbBubble.Size = new System.Drawing.Size(210, 475);
+			this.gbBubble.Size = new System.Drawing.Size(210, 445);
 			this.gbBubble.TabIndex = 10;
 			this.gbBubble.TabStop = false;
 			this.gbBubble.Text = "Bubble Sort";
@@ -339,7 +348,7 @@ namespace PruebaRendimientoForms {
 			this.lsbBubble.ItemHeight = 14;
 			this.lsbBubble.Location = new System.Drawing.Point(6, 20);
 			this.lsbBubble.Name = "lsbBubble";
-			this.lsbBubble.Size = new System.Drawing.Size(198, 449);
+			this.lsbBubble.Size = new System.Drawing.Size(198, 419);
 			this.lsbBubble.TabIndex = 1;
 			this.lsbBubble.TabStop = false;
 			// 
@@ -351,7 +360,7 @@ namespace PruebaRendimientoForms {
 			this.gbMerge.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.gbMerge.Location = new System.Drawing.Point(219, 3);
 			this.gbMerge.Name = "gbMerge";
-			this.gbMerge.Size = new System.Drawing.Size(210, 475);
+			this.gbMerge.Size = new System.Drawing.Size(210, 445);
 			this.gbMerge.TabIndex = 10;
 			this.gbMerge.TabStop = false;
 			this.gbMerge.Text = "Merge Sort";
@@ -367,7 +376,7 @@ namespace PruebaRendimientoForms {
 			this.lsbMerge.ItemHeight = 14;
 			this.lsbMerge.Location = new System.Drawing.Point(6, 20);
 			this.lsbMerge.Name = "lsbMerge";
-			this.lsbMerge.Size = new System.Drawing.Size(198, 449);
+			this.lsbMerge.Size = new System.Drawing.Size(198, 419);
 			this.lsbMerge.TabIndex = 1;
 			this.lsbMerge.TabStop = false;
 			// 
@@ -379,7 +388,7 @@ namespace PruebaRendimientoForms {
 			this.gbSelection.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.gbSelection.Location = new System.Drawing.Point(435, 3);
 			this.gbSelection.Name = "gbSelection";
-			this.gbSelection.Size = new System.Drawing.Size(210, 475);
+			this.gbSelection.Size = new System.Drawing.Size(210, 445);
 			this.gbSelection.TabIndex = 10;
 			this.gbSelection.TabStop = false;
 			this.gbSelection.Text = "Selection Sort";
@@ -395,7 +404,7 @@ namespace PruebaRendimientoForms {
 			this.lsbSelection.ItemHeight = 14;
 			this.lsbSelection.Location = new System.Drawing.Point(6, 20);
 			this.lsbSelection.Name = "lsbSelection";
-			this.lsbSelection.Size = new System.Drawing.Size(198, 449);
+			this.lsbSelection.Size = new System.Drawing.Size(198, 419);
 			this.lsbSelection.TabIndex = 1;
 			this.lsbSelection.TabStop = false;
 			// 
@@ -407,7 +416,7 @@ namespace PruebaRendimientoForms {
 			this.gbQuick.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.gbQuick.Location = new System.Drawing.Point(651, 3);
 			this.gbQuick.Name = "gbQuick";
-			this.gbQuick.Size = new System.Drawing.Size(212, 475);
+			this.gbQuick.Size = new System.Drawing.Size(212, 445);
 			this.gbQuick.TabIndex = 10;
 			this.gbQuick.TabStop = false;
 			this.gbQuick.Text = "Quick Sort";
@@ -423,7 +432,7 @@ namespace PruebaRendimientoForms {
 			this.lsbQuick.ItemHeight = 14;
 			this.lsbQuick.Location = new System.Drawing.Point(6, 20);
 			this.lsbQuick.Name = "lsbQuick";
-			this.lsbQuick.Size = new System.Drawing.Size(200, 449);
+			this.lsbQuick.Size = new System.Drawing.Size(200, 419);
 			this.lsbQuick.TabIndex = 1;
 			this.lsbQuick.TabStop = false;
 			// 
@@ -467,16 +476,78 @@ namespace PruebaRendimientoForms {
 			this.pgbQuick.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.pgbQuick.TabIndex = 11;
 			// 
-			// Form1
+			// tbBubble
+			// 
+			this.tbBubble.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tbBubble.Font = new System.Drawing.Font("Consolas", 12F);
+			this.tbBubble.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
+			this.tbBubble.Location = new System.Drawing.Point(3, 454);
+			this.tbBubble.Name = "tbBubble";
+			this.tbBubble.ReadOnly = true;
+			this.tbBubble.ShortcutsEnabled = false;
+			this.tbBubble.Size = new System.Drawing.Size(210, 26);
+			this.tbBubble.TabIndex = 12;
+			this.tbBubble.TabStop = false;
+			this.tbBubble.Text = "0T";
+			this.tbBubble.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tbMerge
+			// 
+			this.tbMerge.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tbMerge.Font = new System.Drawing.Font("Consolas", 12F);
+			this.tbMerge.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
+			this.tbMerge.Location = new System.Drawing.Point(219, 454);
+			this.tbMerge.Name = "tbMerge";
+			this.tbMerge.ReadOnly = true;
+			this.tbMerge.ShortcutsEnabled = false;
+			this.tbMerge.Size = new System.Drawing.Size(210, 26);
+			this.tbMerge.TabIndex = 12;
+			this.tbMerge.TabStop = false;
+			this.tbMerge.Text = "0T";
+			this.tbMerge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tbSelection
+			// 
+			this.tbSelection.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tbSelection.Font = new System.Drawing.Font("Consolas", 12F);
+			this.tbSelection.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
+			this.tbSelection.Location = new System.Drawing.Point(435, 454);
+			this.tbSelection.Name = "tbSelection";
+			this.tbSelection.ReadOnly = true;
+			this.tbSelection.ShortcutsEnabled = false;
+			this.tbSelection.Size = new System.Drawing.Size(210, 26);
+			this.tbSelection.TabIndex = 12;
+			this.tbSelection.TabStop = false;
+			this.tbSelection.Text = "0T";
+			this.tbSelection.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tbQuick
+			// 
+			this.tbQuick.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tbQuick.Font = new System.Drawing.Font("Consolas", 12F);
+			this.tbQuick.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(6)))), ((int)(((byte)(74)))));
+			this.tbQuick.Location = new System.Drawing.Point(651, 454);
+			this.tbQuick.Name = "tbQuick";
+			this.tbQuick.ReadOnly = true;
+			this.tbQuick.ShortcutsEnabled = false;
+			this.tbQuick.Size = new System.Drawing.Size(212, 26);
+			this.tbQuick.TabIndex = 12;
+			this.tbQuick.TabStop = false;
+			this.tbQuick.Text = "0T";
+			this.tbQuick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// FPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackgroundImage = global::PruebaRendimientoForms.Properties.Resources.Desert;
+			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1089, 613);
 			this.Controls.Add(this.gbRendimiento);
 			this.Controls.Add(this.gbComprobacion);
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(748, 304);
-			this.Name = "Form1";
+			this.Name = "FPrincipal";
 			this.Text = "Prueba de Rendimiento";
 			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
 			this.gbComprobacion.ResumeLayout(false);
@@ -492,6 +563,7 @@ namespace PruebaRendimientoForms {
 			((System.ComponentModel.ISupportInitialize)(this.nudCantidad)).EndInit();
 			this.gbRendimiento.ResumeLayout(false);
 			this.tlpResultados.ResumeLayout(false);
+			this.tlpResultados.PerformLayout();
 			this.gbBubble.ResumeLayout(false);
 			this.gbMerge.ResumeLayout(false);
 			this.gbSelection.ResumeLayout(false);
@@ -515,10 +587,6 @@ namespace PruebaRendimientoForms {
 		private System.Windows.Forms.GroupBox gbMerge;
 		private System.Windows.Forms.GroupBox gbBubble;
 		private System.Windows.Forms.TableLayoutPanel tlpResultados;
-		private System.Windows.Forms.ProgressBar pgbBubble;
-		private System.Windows.Forms.ProgressBar pgbMerge;
-		private System.Windows.Forms.ProgressBar pgbSelection;
-		private System.Windows.Forms.ProgressBar pgbQuick;
 		private System.Windows.Forms.Label lblMetodo;
 		private System.Windows.Forms.ComboBox cmbMetodo;
 		private System.Windows.Forms.NumericUpDown nudCantidad;
@@ -529,6 +597,14 @@ namespace PruebaRendimientoForms {
 		private System.Windows.Forms.Label lblTipo;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.GroupBox gbControl;
+		private System.Windows.Forms.ProgressBar pgbBubble;
+		private System.Windows.Forms.ProgressBar pgbMerge;
+		private System.Windows.Forms.ProgressBar pgbSelection;
+		private System.Windows.Forms.ProgressBar pgbQuick;
+		private System.Windows.Forms.TextBox tbBubble;
+		private System.Windows.Forms.TextBox tbMerge;
+		private System.Windows.Forms.TextBox tbSelection;
+		private System.Windows.Forms.TextBox tbQuick;
 	}
 }
 

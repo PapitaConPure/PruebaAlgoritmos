@@ -5,12 +5,19 @@ using System.Collections.Concurrent;
 namespace PruebaRendimientoForms {
 	class Reportaje {
 		private readonly ListBox listBox;
+		private readonly TextBox textBox;
 		private readonly ConcurrentQueue<string> filaReportes;
+		private DateTime inicio;
+		private TimeSpan diff;
+		private bool finalizado;
 
-		public Reportaje(ListBox listBox, ProgressBar barra, Opcion metodo) {
+		public Reportaje(ListBox listBox, ProgressBar barra, TextBox textBox, Opcion metodo) {
 			this.BarraProgreso = new Progreso(barra, metodo);
 			this.listBox = listBox;
+			this.textBox = textBox;
 			this.filaReportes = new ConcurrentQueue<string>();
+			this.inicio = DateTime.Now;
+			this.finalizado = false;
 
 			this.TiempoTotal = new TimeSpan(0);
 			this.PromedioPorTest = new TimeSpan(0);
@@ -54,12 +61,20 @@ namespace PruebaRendimientoForms {
 			return formato;
 		}
 
-		public void Preparar() {
+		public void Comenzar() {
+			this.inicio = DateTime.Now;
+			this.finalizado = false;
+			this.textBox.Text = FormatearIntervalo(new TimeSpan());
+			this.BarraProgreso.Comenzar();
 			this.listBox.Items.Clear();
 		}
 
 		public void Actualizar() {
-			this.BarraProgreso.Actualizar();
+			if(!this.finalizado) {
+				this.diff = DateTime.Now - this.inicio;
+				this.BarraProgreso.Actualizar();
+				this.textBox.Text = FormatearIntervalo(diff);
+			}
 
 			string actualizacion;
 			while(this.filaReportes.Count > 0) {
@@ -69,6 +84,20 @@ namespace PruebaRendimientoForms {
 					this.listBox.SelectedIndex = this.listBox.Items.Count - 1;
 				}
 			}
+		}
+
+		public void Finalizar() {
+			this.finalizado = true;
+			this.BarraProgreso.Detener();
+			this.textBox.Text = FormatearIntervalo(this.diff);
+
+			this.Escribir("♦ Tiempos Totales:");
+			this.Escribir("  • Promedio:");
+			this.Escribir($"    . Por Test: {FormatearIntervalo(this.PromedioPorTest)}");
+			this.Escribir($"    . c/100 Items: {FormatearIntervalo(this.PromedioCada100Items)}");
+			this.Escribir($"  • Acumulado: {FormatearIntervalo(this.TiempoTotal)}");
+			this.Escribir("");
+			this.Escribir("✔ Finalizado");
 		}
 
 		public void CargarTotales(TimeSpan total, int cantidadTestsProcesados, int cantidadItemsProcesados) {

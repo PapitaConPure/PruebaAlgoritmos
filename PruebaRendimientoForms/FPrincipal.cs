@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using PruebaRendimientoForms.Ordenamientos;
+using System.Drawing;
 
 namespace PruebaRendimientoForms {
-	public partial class Form1: Form {
+	public partial class FPrincipal: Form {
 		#region Parámetros de Prueba
+		private static readonly bool usarBubble = true;
+		private static readonly bool usarMerge = true;
+		private static readonly bool usarSelection = true;
+		private static readonly bool usarQuick = true;
+
 		private static readonly Opcion[] tipos = new Opcion[] {
 			CtrlOrd.TIPO_INT16,
 			CtrlOrd.TIPO_INT32,
@@ -17,12 +24,8 @@ namespace PruebaRendimientoForms {
 			CtrlOrd.TIPO_STRING32,
 		};
 
-		private static readonly bool usarBubble    = true;
-		private static readonly bool usarMerge     = true;
-		private static readonly bool usarSelection = true;
-		private static readonly bool usarQuick     = true;
-
 		private static readonly int[] cantidadesElementos = new int[] {
+			10_000,
 			100_000,
 			500_000,
 			1_000_000,
@@ -58,8 +61,10 @@ namespace PruebaRendimientoForms {
 		#endregion
 
 		private readonly Reportaje[] reportajes;
+		public static bool cancelado;
+		private static bool corriendo;
 
-		public Form1() {
+		public FPrincipal() {
 			this.InitializeComponent();
 
 			CheckForIllegalCrossThreadCalls = false;
@@ -85,10 +90,10 @@ namespace PruebaRendimientoForms {
 
 			#region Preparar Reportajes
 			this.reportajes = new Reportaje[] {
-				new Reportaje(this.lsbBubble,    this.pgbBubble,    CtrlOrd.METODO_BUBBLE_SORT),
-				new Reportaje(this.lsbMerge,     this.pgbMerge,     CtrlOrd.METODO_MERGE_SORT),
-				new Reportaje(this.lsbSelection, this.pgbSelection, CtrlOrd.METODO_SELECTION_SORT),
-				new Reportaje(this.lsbQuick,     this.pgbQuick,     CtrlOrd.METODO_QUICK_SORT)
+				new Reportaje(this.lsbBubble,    this.pgbBubble,    this.tbBubble,    CtrlOrd.METODO_BUBBLE_SORT),
+				new Reportaje(this.lsbMerge,     this.pgbMerge,     this.tbMerge,     CtrlOrd.METODO_MERGE_SORT),
+				new Reportaje(this.lsbSelection, this.pgbSelection, this.tbSelection, CtrlOrd.METODO_SELECTION_SORT),
+				new Reportaje(this.lsbQuick,     this.pgbQuick,     this.tbQuick,     CtrlOrd.METODO_QUICK_SORT)
 			};
 
 			int cntItems = 0;
@@ -105,11 +110,18 @@ namespace PruebaRendimientoForms {
 			int n = (int)this.nudCantidad.Value;
 			int idMetodo = this.cmbMetodo.SelectedIndex;
 			int idTipo = this.cmbTipo.SelectedIndex;
+			Ordenamiento.activo = true;
 
 			this.MostrarVectorComprobacion(CtrlOrd.Ordenar(n, idMetodo, idTipo));
 		}
 
 		private void BtnResultados_Click(object sender, EventArgs e) {
+			if(corriendo) {
+				this.btnResultados.Text = "Probar Rendimiento";
+				Ordenamiento.activo = false;
+				return;
+			}
+
 			long totalElementos = 0;
 
 			foreach(int cantidadElementos in cantidadesElementos)
@@ -133,8 +145,9 @@ namespace PruebaRendimientoForms {
 			if(confirmacion != DialogResult.OK)
 				return;
 
-			this.btnResultados.Text = "Ordenando...";
-			this.btnResultados.Enabled = false;
+			this.btnResultados.Text = "Cancelar";
+			corriendo = true;
+			Ordenamiento.activo = true;
 
 			Task.Run(this.ReportajeInterfaz_DoWork);
 			Task.WhenAll(
@@ -204,9 +217,9 @@ namespace PruebaRendimientoForms {
 
 		private void ReportajeInterfaz_DoWork() {
 			foreach(Reportaje reportaje in this.reportajes)
-				reportaje.Preparar();
+				reportaje.Comenzar();
 
-			while(!this.btnResultados.Enabled)
+			while(corriendo)
 				foreach(Reportaje reportaje in this.reportajes)
 					reportaje.Actualizar();
 		}
@@ -224,6 +237,7 @@ namespace PruebaRendimientoForms {
 
 			this.btnResultados.Text = "Probar Rendimiento";
 			this.btnResultados.Enabled = true;
+			corriendo = false;
 		}
 		#endregion
 
@@ -234,8 +248,6 @@ namespace PruebaRendimientoForms {
 			TimeSpan diff;
 			DateTime fi, ff;
 			int cantidadTestsProcesados = 0, cantidadItemsProcesados = 0;
-
-			reportaje.BarraProgreso.Comenzar();
 
 			foreach(Opcion tipo in tipos) {
 				reportaje.Escribir($"♦ Tiempos de {tipo.Muestra}");
@@ -254,14 +266,19 @@ namespace PruebaRendimientoForms {
 					cantidadItemsProcesados += cantidadElementos;
 					reportaje.BarraProgreso.Aumentar(cantidadElementos);
 					reportaje.Escribir($"  • {cantidadElementos:###,###,###,###}: {Reportaje.FormatearIntervalo(diff)}");
+
+					if(!Ordenamiento.activo)
+						break;
 				}
 
-				this.reportajes[metodo.Id].Escribir("");
+				reportaje.Escribir("");
+
+				if(!Ordenamiento.activo)
+					break;
 			}
 
 			reportaje.CargarTotales(total, cantidadTestsProcesados, cantidadItemsProcesados);
-			reportaje.BarraProgreso.Detener();
-			EscribirReporteFinal(reportaje);
+			reportaje.Finalizar();
 		}
 		
 		private void MostrarVectorComprobacion(object[] vec) {
@@ -284,16 +301,6 @@ namespace PruebaRendimientoForms {
 			} while(procesar && i < omisiones.Length);
 
 			return procesar;
-		}
-
-		private static void EscribirReporteFinal(Reportaje reportaje) {
-			reportaje.Escribir("♦ Tiempos Totales:");
-			reportaje.Escribir("  • Promedio:");
-			reportaje.Escribir($"    . Por Test: {Reportaje.FormatearIntervalo(reportaje.PromedioPorTest)}");
-			reportaje.Escribir($"    . c/100 Items: {Reportaje.FormatearIntervalo(reportaje.PromedioCada100Items)}");
-			reportaje.Escribir($"  • Acumulado: {Reportaje.FormatearIntervalo(reportaje.TiempoTotal)}");
-			reportaje.Escribir("");
-			reportaje.Escribir("✔ Finalizado");
 		}
 
 		private static void AlternarComboBox(ComboBox comboBox) {

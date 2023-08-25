@@ -74,14 +74,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (short)random.Next(short.MaxValue);
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoInt16.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoInt16.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoInt16.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoInt16.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -91,14 +84,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = random.Next();
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoInt32.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoInt32.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoInt32.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoInt32.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -108,14 +94,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (long)(random.NextDouble() * long.MaxValue);
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoInt64.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoInt64.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoInt64.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoInt64.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -125,14 +104,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (float)random.NextDouble() * 100;
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoFloat.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoFloat.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoFloat.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoFloat.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -142,14 +114,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = random.NextDouble() * 10000;
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoDouble.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoDouble.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoDouble.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoDouble.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -159,14 +124,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (decimal)random.NextDouble() * 100000000;
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoDecimal.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoDecimal.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoDecimal.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoDecimal.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -176,14 +134,7 @@ namespace PruebaRendimientoForms {
 			for(int i = 0; i < vec.Length; i++)
 				vec[i] = (char)random.Next(32, 127);
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoChar.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoChar.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoChar.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoChar.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
 		}
@@ -207,16 +158,20 @@ namespace PruebaRendimientoForms {
 			}
 			#endregion
 
-			if(idx == METODO_BUBBLE_SORT.Id)
-				OrdenamientoString.BubbleSort(vec);
-			else if(idx == METODO_MERGE_SORT.Id)
-				OrdenamientoString.MergeSort(vec);
-			else if(idx == METODO_SELECTION_SORT.Id)
-				OrdenamientoString.SelectionSort(vec);
-			else if(idx == METODO_QUICK_SORT.Id)
-				OrdenamientoString.QuickSort(vec);
+			UtilizarMetodo(vec, idx);
 
 			return vec;
+		}
+
+		private static void UtilizarMetodo<T>(T[] vec, int idx) {
+			if(idx == METODO_BUBBLE_SORT.Id)
+				Ordenamiento.BubbleSort(vec);
+			else if(idx == METODO_MERGE_SORT.Id)
+				Ordenamiento.MergeSort(vec);
+			else if(idx == METODO_SELECTION_SORT.Id)
+				Ordenamiento.SelectionSort(vec);
+			else if(idx == METODO_QUICK_SORT.Id)
+				Ordenamiento.QuickSort(vec);
 		}
 	}
 }
